@@ -1,0 +1,74 @@
+name: Sync upstream
+
+# Каждый день проверяет cjpais/Handy и подтягивает изменения в форк.
+# Если всё слилось — запускает новую портативную сборку.
+# Если конфликт — создаёт issue "Upstream sync needs a human" и падает.
+on:
+  schedule:
+    - cron: "0 6 * * *"   # 06:00 UTC = 09:00 МСК
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config user.name "handy-sync-bot"
+          git config user.email "actions@users.noreply.github.com"
+
+      - name: Fetch upstream
+        run: |
+          git remote add upstream https://github.com/cjpais/Handy.git
+          git fetch upstream main
+
+      - name: Update main
+        run: |
+          git checkout main
+          if git merge --ff-only upstream/main; then
+            echo "main moved forward cleanly"
+          else
+            git merge upstream/main -m "chore: sync main with upstream" || {
+              echo "::error::Конфликт при обновлении main"
+              exit 1
+            }
+          fi
+
+      - name: Merge main into feature branch
+        id: merge
+        continue-on-error: true
+        run: |
+          git checkout feature/stt-http-endpoint
+          git merge main -m "chore: sync feature branch with upstream"
+
+      - name: Report conflict
+        if: steps.merge.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git merge --abort || true
+          gh issue create \
+            --title "Upstream sync needs a human ($(date -u +%F))" \
+            --body "Автоматическое слияние cjpais/Handy:main в ветку feature/stt-http-endpoint упало на конфликте. Нужно поправить руками: git merge main в ветке, затем push. После этого сборка пойдёт сама." || true
+          exit 1
+
+      - name: Push updated branches
+        if: steps.merge.outcome == 'success'
+        run: git push origin main feature/stt-http-endpoint
+
+      - name: Trigger portable build
+        if: steps.merge.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="v$(date -u +%Y.%m.%d)-airgapped"
+          gh workflow run airgapped-build.yml --ref main -f tag="$TAG"
+          echo "Запущена сборка с тегом $TAG"

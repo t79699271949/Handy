@@ -148,7 +148,9 @@
       "downloadInstead": "代わりに {{size}} をダウンロード",
       "pauses": "{{name}} は {{percent}}% で一時停止中",
       "resumeLater": "もう一度選ぶと、続きからダウンロードします",
-      "hint": "セットアップを進めている間にダウンロードします"
+      "hint": "セットアップを進めている間にダウンロードします",
+      "skip": "Continue without a model",
+      "skipNote": "You can download one later in Settings"
     },
     "demo": {
       "title": "ショートカット1つで、どのアプリでも話して入力",
@@ -211,7 +213,9 @@
         "model": "音声モデル",
         "shortcut": "ショートカット",
         "changeLanguages": "言語を変更、{{languages}}",
-        "changeModel": "音声モデルを変更、{{model}}"
+        "changeModel": "音声モデルを変更、{{model}}",
+        "noModel": "Not downloaded",
+        "noModelHint": "Download a speech model in Settings when you want to dictate"
       }
     },
     "linux": {

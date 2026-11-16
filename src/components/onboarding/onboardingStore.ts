@@ -43,6 +43,11 @@ interface Persisted {
   returnTo: OnboardingStep | null;
   /** Start Handy at login: set on All set, saved when they finish. */
   atLogin: boolean;
+  /**
+   * They chose to go on without a model (an external STT endpoint, or a
+   * download later from Settings), so Demo and Try it are skipped.
+   */
+  skipModel: boolean;
 }
 
 interface OnboardingState extends Persisted {
@@ -70,6 +75,7 @@ const fresh = (): Persisted => ({
   lessons: { hold: false, tap: false },
   returnTo: null,
   atLogin: true,
+  skipModel: false,
 });
 
 const isStringList = (v: unknown): v is string[] =>
@@ -104,6 +110,7 @@ const load = (): Persisted => {
         (v) => v === null || STEP_ORDER.includes(v as OnboardingStep),
       ),
       atLogin: pick("atLogin", isBool),
+      skipModel: pick("skipModel", isBool),
       lessons: pick(
         "lessons",
         (v) =>
@@ -131,6 +138,7 @@ const save = (state: OnboardingState) => {
     lessons: state.lessons,
     returnTo: state.returnTo,
     atLogin: state.atLogin,
+    skipModel: state.skipModel,
   };
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(persisted));

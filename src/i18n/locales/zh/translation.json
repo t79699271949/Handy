@@ -148,7 +148,9 @@
       "downloadInstead": "改为下载（{{size}}）",
       "pauses": "{{name}}将在 {{percent}}% 时暂停",
       "resumeLater": "再次选择它，即可从中断处继续",
-      "hint": "在您完成设置的同时下载"
+      "hint": "在您完成设置的同时下载",
+      "skip": "Continue without a model",
+      "skipNote": "You can download one later in Settings"
     },
     "demo": {
       "title": "一个快捷键，在任何应用中开口就写",
@@ -211,7 +213,9 @@
         "model": "语音模型",
         "shortcut": "快捷键",
         "changeLanguages": "更改语言，当前为{{languages}}",
-        "changeModel": "更改语音模型，当前为{{model}}"
+        "changeModel": "更改语音模型，当前为{{model}}",
+        "noModel": "Not downloaded",
+        "noModelHint": "Download a speech model in Settings when you want to dictate"
       }
     },
     "linux": {

@@ -148,7 +148,9 @@
       "downloadInstead": "In plaats daarvan {{size}} downloaden",
       "pauses": "{{name}} pauzeert bij {{percent}}%",
       "resumeLater": "Kies het opnieuw om verder te gaan waar je was gebleven",
-      "hint": "Wordt gedownload terwijl je de installatie afrondt"
+      "hint": "Wordt gedownload terwijl je de installatie afrondt",
+      "skip": "Continue without a model",
+      "skipNote": "You can download one later in Settings"
     },
     "demo": {
       "title": "Praat in elke app, met één sneltoets",
@@ -211,7 +213,9 @@
         "model": "Spraakmodel",
         "shortcut": "Sneltoets",
         "changeLanguages": "Talen wijzigen, {{languages}}",
-        "changeModel": "Spraakmodel wijzigen, {{model}}"
+        "changeModel": "Spraakmodel wijzigen, {{model}}",
+        "noModel": "Not downloaded",
+        "noModelHint": "Download a speech model in Settings when you want to dictate"
       }
     },
     "linux": {

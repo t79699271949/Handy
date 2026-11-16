@@ -148,7 +148,9 @@
       "downloadInstead": "Tải xuống {{size}} thay thế",
       "pauses": "{{name}} tạm dừng ở {{percent}}%",
       "resumeLater": "Chọn lại để tiếp tục từ chỗ đã dừng",
-      "hint": "Tải xuống trong lúc bạn hoàn tất thiết lập"
+      "hint": "Tải xuống trong lúc bạn hoàn tất thiết lập",
+      "skip": "Continue without a model",
+      "skipNote": "You can download one later in Settings"
     },
     "demo": {
       "title": "Nói trong mọi ứng dụng, chỉ với một phím tắt",
@@ -211,7 +213,9 @@
         "model": "Mô hình giọng nói",
         "shortcut": "Phím tắt",
         "changeLanguages": "Đổi ngôn ngữ, {{languages}}",
-        "changeModel": "Đổi mô hình giọng nói, {{model}}"
+        "changeModel": "Đổi mô hình giọng nói, {{model}}",
+        "noModel": "Not downloaded",
+        "noModelHint": "Download a speech model in Settings when you want to dictate"
       }
     },
     "linux": {

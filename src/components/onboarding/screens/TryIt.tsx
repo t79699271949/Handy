@@ -195,6 +195,8 @@ export const TryIt: React.FC<TryItProps> = ({
     if (silent) refreshAudioDevices();
   }, [silent, refreshAudioDevices]);
   const name = model?.name ?? "";
+  // Without a model (skipped on Model), the panel says so instead of a blank.
+  const modelLabel = model?.name ?? t("onboarding.done.panel.noModel");
 
   const seconds = (s: number) =>
     t("onboarding.try.seconds", {
@@ -698,7 +700,8 @@ export const TryIt: React.FC<TryItProps> = ({
             <TrayPanel
               os={os}
               languages={languages}
-              modelName={name}
+              modelName={modelLabel}
+              hasModel={!!model}
               ready={ready}
               download={download}
               shortcut={e.shortcut}

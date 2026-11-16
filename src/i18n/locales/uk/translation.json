@@ -148,7 +148,9 @@
       "downloadInstead": "Натомість завантажити {{size}}",
       "pauses": "{{name}} призупиняється на {{percent}}%",
       "resumeLater": "Оберіть її знову, щоб продовжити з місця зупинки",
-      "hint": "Завантажується, поки ви завершуєте налаштування"
+      "hint": "Завантажується, поки ви завершуєте налаштування",
+      "skip": "Continue without a model",
+      "skipNote": "You can download one later in Settings"
     },
     "demo": {
       "title": "Говоріть у будь-якій програмі за допомогою однієї комбінації клавіш",
@@ -211,7 +213,9 @@
         "model": "Модель розпізнавання мовлення",
         "shortcut": "Комбінація клавіш",
         "changeLanguages": "Змінити мови, {{languages}}",
-        "changeModel": "Змінити модель розпізнавання мовлення, {{model}}"
+        "changeModel": "Змінити модель розпізнавання мовлення, {{model}}",
+        "noModel": "Not downloaded",
+        "noModelHint": "Download a speech model in Settings when you want to dictate"
       }
     },
     "linux": {

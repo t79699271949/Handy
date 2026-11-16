@@ -15,6 +15,8 @@ interface TrayPanelProps {
   os: OSType;
   languages: string[];
   modelName: string;
+  /** A model is picked (it may still be downloading, or not downloaded). */
+  hasModel: boolean;
   /** The model is on disk. */
   ready: boolean;
   /** Shown while not ready. */
@@ -63,6 +65,7 @@ export const TrayPanel: React.FC<TrayPanelProps> = ({
   os,
   languages,
   modelName,
+  hasModel,
   ready,
   download,
   shortcut,
@@ -107,7 +110,11 @@ export const TrayPanel: React.FC<TrayPanelProps> = ({
           </span>
         )}
       </div>
-      {!ready && <div className="try-panel-download">{download}</div>}
+      {!ready && (
+        <div className="try-panel-download">
+          {hasModel ? download : t("onboarding.done.panel.noModelHint")}
+        </div>
+      )}
       <button
         type="button"
         className="try-panel-row"

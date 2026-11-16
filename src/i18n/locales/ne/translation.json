@@ -148,7 +148,9 @@
       "downloadInstead": "बरु {{size}} डाउनलोड गर्नुहोस्",
       "pauses": "{{name}} {{percent}}% मा रोकिन्छ",
       "resumeLater": "फेरि छान्नुहोस्, जहाँ रोकिएको थियो त्यहीँबाट सुरु हुन्छ",
-      "hint": "तपाईंले सेटअप सक्दा डाउनलोड हुन्छ"
+      "hint": "तपाईंले सेटअप सक्दा डाउनलोड हुन्छ",
+      "skip": "Continue without a model",
+      "skipNote": "You can download one later in Settings"
     },
     "demo": {
       "title": "एउटै सर्टकटले जुनसुकै एपमा बोल्नुहोस्",
@@ -211,7 +213,9 @@
         "model": "स्पिच मोडेल",
         "shortcut": "सर्टकट",
         "changeLanguages": "भाषाहरू परिवर्तन गर्नुहोस्, {{languages}}",
-        "changeModel": "स्पिच मोडेल परिवर्तन गर्नुहोस्, {{model}}"
+        "changeModel": "स्पिच मोडेल परिवर्तन गर्नुहोस्, {{model}}",
+        "noModel": "Not downloaded",
+        "noModelHint": "Download a speech model in Settings when you want to dictate"
       }
     },
     "linux": {

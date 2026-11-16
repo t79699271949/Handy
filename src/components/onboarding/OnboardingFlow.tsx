@@ -126,7 +126,11 @@ export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({
   if (!permissions.checked) return null;
 
   const steps = STEP_ORDER.filter(
-    (s) => s !== "permissions" || permissions.needed || store.welcomeBack,
+    (s) =>
+      (s !== "permissions" || permissions.needed || store.welcomeBack) &&
+      // Going on without a model leaves Demo and Try it nothing to show:
+      // they demonstrate and then test dictation with a local model.
+      !(store.skipModel && (s === "demo" || s === "try")),
   );
   const step = steps.includes(store.step) ? store.step : steps[0];
   const progress = { index: steps.indexOf(step), count: steps.length };
@@ -212,6 +216,10 @@ export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({
           models={models}
           onBack={store.returnTo ? () => go(store.returnTo!) : back}
           onChoose={chooseModel}
+          onSkip={() => {
+            store.set({ skipModel: true });
+            go("done");
+          }}
         />
       );
     case "demo":

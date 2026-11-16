@@ -148,7 +148,9 @@
       "downloadInstead": "Stáhnout raději {{size}}",
       "pauses": "{{name}} se pozastaví na {{percent}} %",
       "resumeLater": "Vyberte jej znovu a stahování naváže tam, kde skončilo",
-      "hint": "Stahuje se, zatímco dokončujete nastavení"
+      "hint": "Stahuje se, zatímco dokončujete nastavení",
+      "skip": "Continue without a model",
+      "skipNote": "You can download one later in Settings"
     },
     "demo": {
       "title": "Mluvte v jakékoli aplikaci jedinou zkratkou",
@@ -211,7 +213,9 @@
         "model": "Model řeči",
         "shortcut": "Zkratka",
         "changeLanguages": "Změnit jazyky, {{languages}}",
-        "changeModel": "Změnit model řeči, {{model}}"
+        "changeModel": "Změnit model řeči, {{model}}",
+        "noModel": "Not downloaded",
+        "noModelHint": "Download a speech model in Settings when you want to dictate"
       }
     },
     "linux": {

@@ -148,7 +148,9 @@
       "downloadInstead": "Unduh {{size}} saja",
       "pauses": "{{name}} berhenti sejenak di {{percent}}%",
       "resumeLater": "Pilih lagi untuk melanjutkan dari titik terhenti",
-      "hint": "Diunduh selagi Anda menyelesaikan penyiapan"
+      "hint": "Diunduh selagi Anda menyelesaikan penyiapan",
+      "skip": "Continue without a model",
+      "skipNote": "You can download one later in Settings"
     },
     "demo": {
       "title": "Bicara di aplikasi apa pun, dengan satu pintasan",
@@ -211,7 +213,9 @@
         "model": "Model ucapan",
         "shortcut": "Pintasan",
         "changeLanguages": "Ubah bahasa, {{languages}}",
-        "changeModel": "Ubah model ucapan, {{model}}"
+        "changeModel": "Ubah model ucapan, {{model}}",
+        "noModel": "Not downloaded",
+        "noModelHint": "Download a speech model in Settings when you want to dictate"
       }
     },
     "linux": {

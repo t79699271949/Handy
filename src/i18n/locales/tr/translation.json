@@ -148,7 +148,9 @@
       "downloadInstead": "Bunun yerine {{size}} indir",
       "pauses": "{{name}} %{{percent}} noktasında duraklıyor",
       "resumeLater": "Tekrar seçtiğinizde kaldığı yerden devam eder",
-      "hint": "Kurulumu bitirirken iner"
+      "hint": "Kurulumu bitirirken iner",
+      "skip": "Continue without a model",
+      "skipNote": "You can download one later in Settings"
     },
     "demo": {
       "title": "Tek kısayolla her uygulamada konuşun",
@@ -211,7 +213,9 @@
         "model": "Konuşma modeli",
         "shortcut": "Kısayol",
         "changeLanguages": "Dilleri değiştir, {{languages}}",
-        "changeModel": "Konuşma modelini değiştir, {{model}}"
+        "changeModel": "Konuşma modelini değiştir, {{model}}",
+        "noModel": "Not downloaded",
+        "noModelHint": "Download a speech model in Settings when you want to dictate"
       }
     },
     "linux": {

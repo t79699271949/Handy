@@ -148,7 +148,9 @@
       "downloadInstead": "Stattdessen {{size}} herunterladen",
       "pauses": "{{name}} pausiert bei {{percent}} %",
       "resumeLater": "Wähle es erneut, um dort weiterzumachen, wo es aufgehört hat",
-      "hint": "Wird heruntergeladen, während du die Einrichtung abschließt"
+      "hint": "Wird heruntergeladen, während du die Einrichtung abschließt",
+      "skip": "Continue without a model",
+      "skipNote": "You can download one later in Settings"
     },
     "demo": {
       "title": "Sprich in jeder App, mit einem Tastenkürzel",
@@ -211,7 +213,9 @@
         "model": "Sprachmodell",
         "shortcut": "Tastenkürzel",
         "changeLanguages": "Sprachen ändern, {{languages}}",
-        "changeModel": "Sprachmodell ändern, {{model}}"
+        "changeModel": "Sprachmodell ändern, {{model}}",
+        "noModel": "Not downloaded",
+        "noModelHint": "Download a speech model in Settings when you want to dictate"
       }
     },
     "linux": {

@@ -148,7 +148,9 @@
       "downloadInstead": "Pobierz zamiast tego ({{size}})",
       "pauses": "{{name}} zatrzymuje się na {{percent}}%",
       "resumeLater": "Wybierz go ponownie, aby wznowić od miejsca zatrzymania",
-      "hint": "Pobiera się, gdy kończysz konfigurację"
+      "hint": "Pobiera się, gdy kończysz konfigurację",
+      "skip": "Continue without a model",
+      "skipNote": "You can download one later in Settings"
     },
     "demo": {
       "title": "Mów w dowolnej aplikacji, jednym skrótem",
@@ -211,7 +213,9 @@
         "model": "Model mowy",
         "shortcut": "Skrót",
         "changeLanguages": "Zmień języki, {{languages}}",
-        "changeModel": "Zmień model mowy, {{model}}"
+        "changeModel": "Zmień model mowy, {{model}}",
+        "noModel": "Not downloaded",
+        "noModelHint": "Download a speech model in Settings when you want to dictate"
       }
     },
     "linux": {

@@ -148,7 +148,9 @@
       "downloadInstead": "Изтегли {{size}} вместо това",
       "pauses": "{{name}} прави пауза при {{percent}}%",
       "resumeLater": "Изберете го отново, за да продължи от мястото на спиране",
-      "hint": "Изтегля се, докато завършвате настройката"
+      "hint": "Изтегля се, докато завършвате настройката",
+      "skip": "Continue without a model",
+      "skipNote": "You can download one later in Settings"
     },
     "demo": {
       "title": "Говорете във всяко приложение с един бърз клавиш",
@@ -211,7 +213,9 @@
         "model": "Модел за реч",
         "shortcut": "Бърз клавиш",
         "changeLanguages": "Промяна на езиците, {{languages}}",
-        "changeModel": "Промяна на модела за реч, {{model}}"
+        "changeModel": "Промяна на модела за реч, {{model}}",
+        "noModel": "Not downloaded",
+        "noModelHint": "Download a speech model in Settings when you want to dictate"
       }
     },
     "linux": {

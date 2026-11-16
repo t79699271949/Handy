@@ -177,6 +177,13 @@ const settingUpdaters: {
     commands.changeExperimentalEnabledSetting(value as boolean),
   lazy_stream_close: (value) =>
     commands.changeLazyStreamCloseSetting(value as boolean),
+  // Reaching the backend matters here: without it the endpoint stayed on and
+  // recordings kept going to the server even after the toggle was switched off.
+  stt_http: async (value) => {
+    if (!value) return;
+    const result = await commands.updateSttHttpSettings(value);
+    if (result.status === "error") throw new Error(result.error);
+  },
   airpods_mode: async (value) => {
     const result = await commands.changeAirpodsModeSetting(value as boolean);
     if (result.status === "error") {

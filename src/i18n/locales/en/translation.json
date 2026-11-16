@@ -631,7 +631,7 @@
         }
       },
       "airGappedStt": {
-        "label": "Air-gapped speech-to-text",
+        "label": "Speech-to-text via a local server",
         "description": "Send recordings to an OpenAI-compatible endpoint instead of the local model.",
         "baseUrl": "Endpoint URL",
         "model": "Model",

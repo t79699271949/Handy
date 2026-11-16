@@ -195,6 +195,27 @@ pub async fn transcribe(
     })
 }
 
+/// Save the external endpoint settings from the settings UI.
+///
+/// Without this command the toggle only changed the frontend state: the
+/// backend kept the stored `stt_http` value, so switching the endpoint off
+/// still sent recordings to the server (and the error stayed the same).
+#[tauri::command]
+#[specta::specta]
+pub fn update_stt_http_settings(
+    app: tauri::AppHandle,
+    settings: SttHttpSettings,
+) -> Result<(), String> {
+    let mut app_settings = crate::settings::get_settings(&app);
+    app_settings.stt_http = settings;
+    info!(
+        "stt_http: settings saved (enabled: {}, endpoint: {})",
+        app_settings.stt_http.enabled, app_settings.stt_http.base_url
+    );
+    crate::settings::write_settings(&app, app_settings);
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

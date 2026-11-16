@@ -148,7 +148,9 @@
       "downloadInstead": "Download {{size}} instead",
       "pauses": "{{name}} pauses at {{percent}}%",
       "resumeLater": "Pick it again to pick up where it left off",
-      "hint": "Downloads while you finish setup"
+      "hint": "Downloads while you finish setup",
+      "skip": "Continue without a model",
+      "skipNote": "You can download one later in Settings"
     },
     "demo": {
       "title": "Talk in any app, with one shortcut",
@@ -211,7 +213,9 @@
         "model": "Speech model",
         "shortcut": "Shortcut",
         "changeLanguages": "Change languages, {{languages}}",
-        "changeModel": "Change speech model, {{model}}"
+        "changeModel": "Change speech model, {{model}}",
+        "noModel": "Not downloaded",
+        "noModelHint": "Download a speech model in Settings when you want to dictate"
       }
     },
     "linux": {
@@ -625,6 +629,16 @@
           "traditionalTw": "Traditional (Taiwan)",
           "traditionalHk": "Traditional (Hong Kong)"
         }
+      },
+      "airGappedStt": {
+        "label": "Speech-to-text via a local server",
+        "description": "Send recordings to an OpenAI-compatible endpoint instead of the local model.",
+        "baseUrl": "Endpoint URL",
+        "model": "Model",
+        "apiKey": "API key",
+        "apiKeyPlaceholder": "optional",
+        "timeout": "Timeout, seconds",
+        "language": "Language"
       }
     },
     "postProcessing": {

@@ -32,6 +32,7 @@ import {
   ROLE_KEYS as PICK_ROLE_KEYS,
 } from "../../shared/modelTable/ModelTableRow";
 import { formatModelSize } from "@/lib/utils/format";
+import { TextLink } from "../../ui/TextLink";
 import { OnboardingShell, ScreenHeader, ScreenMain } from "../OnboardingShell";
 import { useOnboardingStore } from "../onboardingStore";
 import { useDownloadWords } from "../DownloadStatus";
@@ -72,6 +73,8 @@ interface ModelProps {
   onBack?: () => void;
   /** The picked model (catalog id), once Download or Continue is pressed. */
   onChoose: (modelId: string) => void;
+  /** Go on without a model: it can be downloaded later from Settings. */
+  onSkip?: () => void;
 }
 
 /** Screen 3: pick one of three suggested models, or Show all for the table. */
@@ -80,6 +83,7 @@ export const Model: React.FC<ModelProps> = ({
   models,
   onBack,
   onChoose,
+  onSkip,
 }) => {
   const { t, i18n } = useTranslation();
   const words = useDownloadWords();
@@ -557,6 +561,16 @@ export const Model: React.FC<ModelProps> = ({
             {t("onboarding.model.showAll", { count: models.offered.length })}
             <Chevron />
           </button>
+          {/* No local model needed: an external STT endpoint, or a download
+              later from Settings. Hidden once a model is already on disk. */}
+          {onSkip && !continuing && (
+            <div className="mt-[10px] flex flex-none flex-col items-center gap-[2px] text-small">
+              <TextLink onClick={onSkip}>{t("onboarding.model.skip")}</TextLink>
+              <span className="text-label text-ink-3">
+                {t("onboarding.model.skipNote")}
+              </span>
+            </div>
+          )}
         </ScreenMain>
       </OnboardingShell>
     );

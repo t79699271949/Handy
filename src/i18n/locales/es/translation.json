@@ -148,7 +148,9 @@
       "downloadInstead": "Descargar {{size}} en su lugar",
       "pauses": "{{name}} se pausa en {{percent}} %",
       "resumeLater": "Elígelo de nuevo para continuar donde se quedó",
-      "hint": "Se descarga mientras terminas la configuración"
+      "hint": "Se descarga mientras terminas la configuración",
+      "skip": "Continue without a model",
+      "skipNote": "You can download one later in Settings"
     },
     "demo": {
       "title": "Habla en cualquier app, con un solo atajo",
@@ -211,7 +213,9 @@
         "model": "Modelo de voz",
         "shortcut": "Atajo",
         "changeLanguages": "Cambiar idiomas, {{languages}}",
-        "changeModel": "Cambiar modelo de voz, {{model}}"
+        "changeModel": "Cambiar modelo de voz, {{model}}",
+        "noModel": "Not downloaded",
+        "noModelHint": "Download a speech model in Settings when you want to dictate"
       }
     },
     "linux": {
@@ -625,6 +629,16 @@
           "traditionalTw": "Tradicional (Taiwán)",
           "traditionalHk": "Tradicional (Hong Kong)"
         }
+      },
+      "airGappedStt": {
+        "label": "Air-gapped speech-to-text",
+        "description": "Send recordings to an OpenAI-compatible endpoint instead of the local model.",
+        "baseUrl": "Endpoint URL",
+        "model": "Model",
+        "apiKey": "API key",
+        "apiKeyPlaceholder": "optional",
+        "timeout": "Timeout, seconds",
+        "language": "Idioma"
       }
     },
     "postProcessing": {

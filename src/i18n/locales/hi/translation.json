@@ -148,7 +148,9 @@
       "downloadInstead": "इसकी जगह {{size}} डाउनलोड करें",
       "pauses": "{{name}} {{percent}}% पर रुकता है",
       "resumeLater": "इसे दोबारा चुनें, यह वहीं से शुरू होगा जहां रुका था",
-      "hint": "आपके सेटअप पूरा करते समय डाउनलोड होता रहेगा"
+      "hint": "आपके सेटअप पूरा करते समय डाउनलोड होता रहेगा",
+      "skip": "Continue without a model",
+      "skipNote": "You can download one later in Settings"
     },
     "demo": {
       "title": "किसी भी ऐप में बोलें, बस एक शॉर्टकट से",
@@ -211,7 +213,9 @@
         "model": "स्पीच मॉडल",
         "shortcut": "शॉर्टकट",
         "changeLanguages": "भाषाएं बदलें, {{languages}}",
-        "changeModel": "स्पीच मॉडल बदलें, {{model}}"
+        "changeModel": "स्पीच मॉडल बदलें, {{model}}",
+        "noModel": "Not downloaded",
+        "noModelHint": "Download a speech model in Settings when you want to dictate"
       }
     },
     "linux": {
@@ -625,6 +629,16 @@
           "traditionalTw": "पारंपरिक (ताइवान)",
           "traditionalHk": "पारंपरिक (हांगकांग)"
         }
+      },
+      "airGappedStt": {
+        "label": "Air-gapped speech-to-text",
+        "description": "Send recordings to an OpenAI-compatible endpoint instead of the local model.",
+        "baseUrl": "Endpoint URL",
+        "model": "Model",
+        "apiKey": "API key",
+        "apiKeyPlaceholder": "optional",
+        "timeout": "Timeout, seconds",
+        "language": "Language"
       }
     },
     "postProcessing": {

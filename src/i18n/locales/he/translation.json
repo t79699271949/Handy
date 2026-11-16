@@ -148,7 +148,9 @@
       "downloadInstead": "הורד {{size}} במקום זאת",
       "pauses": "{{name}} נעצר ב-{{percent}}%",
       "resumeLater": "בחר בו שוב כדי להמשיך מהמקום שבו עצר",
-      "hint": "יורד בזמן שאתה מסיים את ההגדרה"
+      "hint": "יורד בזמן שאתה מסיים את ההגדרה",
+      "skip": "Continue without a model",
+      "skipNote": "You can download one later in Settings"
     },
     "demo": {
       "title": "דבר בכל אפליקציה, עם קיצור מקשים אחד",
@@ -211,7 +213,9 @@
         "model": "מודל דיבור",
         "shortcut": "קיצור מקשים",
         "changeLanguages": "שנה שפות, {{languages}}",
-        "changeModel": "שנה מודל דיבור, {{model}}"
+        "changeModel": "שנה מודל דיבור, {{model}}",
+        "noModel": "Not downloaded",
+        "noModelHint": "Download a speech model in Settings when you want to dictate"
       }
     },
     "linux": {
@@ -625,6 +629,16 @@
           "traditionalTw": "מסורתית (טייוואן)",
           "traditionalHk": "מסורתית (הונג קונג)"
         }
+      },
+      "airGappedStt": {
+        "label": "Air-gapped speech-to-text",
+        "description": "Send recordings to an OpenAI-compatible endpoint instead of the local model.",
+        "baseUrl": "Endpoint URL",
+        "model": "Model",
+        "apiKey": "API key",
+        "apiKeyPlaceholder": "optional",
+        "timeout": "Timeout, seconds",
+        "language": "Language"
       }
     },
     "postProcessing": {

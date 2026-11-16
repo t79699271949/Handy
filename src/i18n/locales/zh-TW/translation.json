@@ -148,7 +148,9 @@
       "downloadInstead": "改為下載 {{size}}",
       "pauses": "{{name}} 會在 {{percent}}% 暫停",
       "resumeLater": "再次選擇它即可從中斷處繼續",
-      "hint": "會在您完成設定的同時下載"
+      "hint": "會在您完成設定的同時下載",
+      "skip": "Continue without a model",
+      "skipNote": "You can download one later in Settings"
     },
     "demo": {
       "title": "一個快捷鍵，在任何應用程式中開口說話",
@@ -211,7 +213,9 @@
         "model": "語音模型",
         "shortcut": "快捷鍵",
         "changeLanguages": "變更語言，{{languages}}",
-        "changeModel": "變更語音模型，{{model}}"
+        "changeModel": "變更語音模型，{{model}}",
+        "noModel": "Not downloaded",
+        "noModelHint": "Download a speech model in Settings when you want to dictate"
       }
     },
     "linux": {
@@ -625,6 +629,16 @@
           "traditionalTw": "繁體（臺灣）",
           "traditionalHk": "繁體（香港）"
         }
+      },
+      "airGappedStt": {
+        "label": "Air-gapped speech-to-text",
+        "description": "Send recordings to an OpenAI-compatible endpoint instead of the local model.",
+        "baseUrl": "Endpoint URL",
+        "model": "Model",
+        "apiKey": "API key",
+        "apiKeyPlaceholder": "optional",
+        "timeout": "Timeout, seconds",
+        "language": "Language"
       }
     },
     "postProcessing": {

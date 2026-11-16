@@ -148,7 +148,9 @@
       "downloadInstead": "Download {{size}} i stedet",
       "pauses": "{{name}} holder pause ved {{percent}} %",
       "resumeLater": "Vælg den igen for at fortsætte, hvor den slap",
-      "hint": "Downloader, mens du gør opsætningen færdig"
+      "hint": "Downloader, mens du gør opsætningen færdig",
+      "skip": "Continue without a model",
+      "skipNote": "You can download one later in Settings"
     },
     "demo": {
       "title": "Tal i enhver app med én genvej",
@@ -211,7 +213,9 @@
         "model": "Talemodel",
         "shortcut": "Genvej",
         "changeLanguages": "Skift sprog, {{languages}}",
-        "changeModel": "Skift talemodel, {{model}}"
+        "changeModel": "Skift talemodel, {{model}}",
+        "noModel": "Not downloaded",
+        "noModelHint": "Download a speech model in Settings when you want to dictate"
       }
     },
     "linux": {
@@ -625,6 +629,16 @@
           "traditionalTw": "Traditionelle (Taiwan)",
           "traditionalHk": "Traditionelle (Hongkong)"
         }
+      },
+      "airGappedStt": {
+        "label": "Air-gapped speech-to-text",
+        "description": "Send recordings to an OpenAI-compatible endpoint instead of the local model.",
+        "baseUrl": "Endpoint URL",
+        "model": "Model",
+        "apiKey": "API key",
+        "apiKeyPlaceholder": "optional",
+        "timeout": "Timeout, seconds",
+        "language": "Language"
       }
     },
     "postProcessing": {

@@ -27,6 +27,7 @@ mod secure_input;
 mod settings;
 mod shortcut;
 mod signal_handle;
+mod stt_http;
 mod system_languages;
 mod transcription_coordinator;
 mod transcription_hook;
@@ -755,6 +756,7 @@ pub fn run(cli_args: CliArgs) {
             shortcut::handy_keys::stop_handy_keys_recording,
             secure_input::get_secure_input_status,
             secure_input::run_keyboard_diagnostic,
+            stt_http::update_stt_http_settings,
             trigger_update_check,
             show_main_window_command,
             commands::cancel_operation,

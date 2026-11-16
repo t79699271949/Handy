@@ -148,7 +148,9 @@
       "downloadInstead": "تنزيل {{size}} بدلًا من ذلك",
       "pauses": "يتوقف {{name}} مؤقتًا عند {{percent}}%",
       "resumeLater": "اخترْه مرة أخرى ليكمل من حيث توقف",
-      "hint": "يُنزَّل أثناء إكمالك للإعداد"
+      "hint": "يُنزَّل أثناء إكمالك للإعداد",
+      "skip": "Continue without a model",
+      "skipNote": "You can download one later in Settings"
     },
     "demo": {
       "title": "تحدّث في أي تطبيق باختصار واحد",
@@ -211,7 +213,9 @@
         "model": "نموذج الكلام",
         "shortcut": "الاختصار",
         "changeLanguages": "تغيير اللغات، {{languages}}",
-        "changeModel": "تغيير نموذج الكلام، {{model}}"
+        "changeModel": "تغيير نموذج الكلام، {{model}}",
+        "noModel": "Not downloaded",
+        "noModelHint": "Download a speech model in Settings when you want to dictate"
       }
     },
     "linux": {
@@ -625,6 +629,16 @@
           "traditionalTw": "تقليدية (تايوان)",
           "traditionalHk": "تقليدية (هونغ كونغ)"
         }
+      },
+      "airGappedStt": {
+        "label": "Air-gapped speech-to-text",
+        "description": "Send recordings to an OpenAI-compatible endpoint instead of the local model.",
+        "baseUrl": "Endpoint URL",
+        "model": "Model",
+        "apiKey": "API key",
+        "apiKeyPlaceholder": "optional",
+        "timeout": "Timeout, seconds",
+        "language": "Language"
       }
     },
     "postProcessing": {

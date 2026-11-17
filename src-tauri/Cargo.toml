@@ -207,6 +207,10 @@ transcribe-cpp = { version = "0.4.2", default-features = false, features = [
 [patch.crates-io]
 tao = { git = "https://github.com/cjpais/tao", rev = "c3bee28c1d446d95f08c95c3b6f8d4bde052b876" }
 tao-macros = { git = "https://github.com/cjpais/tao", rev = "c3bee28c1d446d95f08c95c3b6f8d4bde052b876" }
+# Windows virtual audio drivers (VMware/Horizon, RDP loopback) reject the fixed
+# 500 ms WASAPI buffer with E_INVALIDARG; the vendored crate asks for it only
+# when the driver reports a range that fits, and uses the device default else.
+handy-recorder = { path = "vendor/handy-recorder" }
 
 [dev-dependencies]
 tempfile = "3"

@@ -244,10 +244,49 @@ impl Backend for CpalBackend {
         log::debug!("resolve_device={:?}", resolve_started.elapsed());
 
         let config_started = Instant::now();
-        let config = device
+        let mut config = device
             .default_input_config()
             .map_err(|e| map_error_during("Failed to fetch preferred config", e))?;
         log::debug!("fetch_config={:?}", config_started.elapsed());
+
+        // A virtual driver (VMware/Horizon, RDP loopback) may reject even its own
+        // preferred format on IAudioClient::Initialize with E_INVALIDARG. Try the
+        // other formats it lists before giving up, so recording works at all.
+        #[cfg(target_os = "windows")]
+        if !config_opens(&device, &config) {
+            let mut chosen = None;
+            if let Ok(candidates) = device.supported_input_configs() {
+                for candidate in candidates.take(16) {
+                    for rate in [candidate.min_sample_rate(), candidate.max_sample_rate()] {
+                        let next = candidate.with_sample_rate(rate);
+                        if config_opens(&device, &next) {
+                            chosen = Some(next);
+                            break;
+                        }
+                    }
+                    if chosen.is_some() {
+                        break;
+                    }
+                }
+            }
+            match chosen {
+                Some(next) => {
+                    log::warn!(
+                        "the preferred input format ({} ch, {} Hz, {:?}) does not open; using {} ch, {} Hz, {:?}",
+                        config.channels(),
+                        config.sample_rate(),
+                        config.sample_format(),
+                        next.channels(),
+                        next.sample_rate(),
+                        next.sample_format()
+                    );
+                    config = next;
+                }
+                None => log::warn!(
+                    "no listed input format opened on this device; trying the preferred one anyway"
+                ),
+            }
+        }
 
         let sample_format = match config.sample_format() {
             cpal::SampleFormat::U8 => SampleFormat::U8,
@@ -482,6 +521,24 @@ impl OpenDevice for CpalOpenDevice {
             watch,
         }))
     }
+}
+
+/// Whether WASAPI actually opens a capture stream with this configuration.
+///
+/// Some virtual drivers accept the config query but then reject the very same
+/// format on `IAudioClient::Initialize` with `E_INVALIDARG`, so the only
+/// reliable answer is to open a throwaway stream.
+#[cfg(target_os = "windows")]
+fn config_opens(device: &cpal::Device, config: &cpal::SupportedStreamConfig) -> bool {
+    device
+        .build_input_stream_raw(
+            config.config(),
+            config.sample_format(),
+            |_: &cpal::Data, _: &cpal::InputCallbackInfo| {},
+            |_: cpal::Error| {},
+            None,
+        )
+        .is_ok()
 }
 
 fn build_stream<T>(

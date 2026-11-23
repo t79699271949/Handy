@@ -268,9 +268,10 @@ impl Backend for CpalBackend {
                     cfg.sample_rate,
                     fmt
                 ),
-                None => log::warn!(
-                    "no input format opened on this device; recording will likely fail"
-                ),
+                None => {
+                    log::warn!("no input format opened on this device; recording will likely fail");
+                    log_capture_devices(&device);
+                }
             }
             probed
         };
@@ -594,6 +595,51 @@ fn stream_opens(
             None,
         )
         .is_ok()
+}
+
+/// Dumps every capture endpoint and the format its driver reports.
+///
+/// When a driver rejects everything, the useful question is which other devices
+/// the session exposes - the one that works is often not the one selected.
+fn log_capture_devices(selected: &cpal::Device) {
+    let selected_name = selected
+        .description()
+        .map(|d| d.name().to_owned())
+        .unwrap_or_else(|_| "Unknown".into());
+    log::warn!("selected capture device: {selected_name}");
+
+    let host = cpal::default_host();
+    let Ok(devices) = host.input_devices() else {
+        log::warn!("could not enumerate capture devices");
+        return;
+    };
+    for device in devices {
+        let name = device
+            .description()
+            .map(|d| d.name().to_owned())
+            .unwrap_or_else(|_| "Unknown".into());
+        let preferred = device
+            .default_input_config()
+            .map(|c| {
+                format!(
+                    "{} ch, {} Hz, {:?}",
+                    c.channels(),
+                    c.sample_rate(),
+                    c.sample_format()
+                )
+            })
+            .unwrap_or_else(|e| format!("no preferred config ({e})"));
+        // Report whether this endpoint actually opens, so the log names the device
+        // that works instead of leaving it to guesswork.
+        let opens = device
+            .default_input_config()
+            .map(|cfg| config_opens(&device, &cfg))
+            .unwrap_or(false);
+        log::warn!(
+            "capture device available: {name} | {preferred} | {}",
+            if opens { "OPENS" } else { "rejected" }
+        );
+    }
 }
 
 /// Whether WASAPI actually opens a capture stream with this configuration.

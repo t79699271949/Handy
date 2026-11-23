@@ -1,4 +1,3 @@
-use crate::utils;
 use log::{debug, warn};
 use serde::de::{self, Visitor};
 use serde::{Deserialize, Deserializer, Serialize};
@@ -1496,6 +1495,7 @@ fn linux_self_update_possible(kind: Option<BundleKind>, has_tool: impl Fn(&str) 
 }
 
 #[cfg(target_os = "linux")]
+#[allow(dead_code)]
 fn self_update_possible() -> bool {
     use std::os::unix::fs::PermissionsExt;
     use tauri::utils::config::BundleType;
@@ -1521,19 +1521,21 @@ fn self_update_possible() -> bool {
 }
 
 #[cfg(not(target_os = "linux"))]
+#[allow(dead_code)]
 fn self_update_possible() -> bool {
     true
 }
 
-/// Update checks are forced off (without touching the persisted setting) when
-/// `HANDY_DISABLE_UPDATER` is set — e.g. by the Nix package, since self-update
-/// can't work against an immutable /nix/store install — or when this build
-/// cannot install its own update (see `linux_self_update_possible`).
+/// Update checks are forced off (without touching the persisted setting) in
+/// this build. Upstream gates this on `HANDY_DISABLE_UPDATER` or an install
+/// that cannot self-update; the air-gapped fork never reaches GitHub at all,
+/// so the check is off unconditionally and the toggle is shown as locked.
 pub fn update_checks_forced_disabled() -> bool {
-    use std::sync::OnceLock;
-    static IS_UPDATER_DISABLED: OnceLock<bool> = OnceLock::new();
-    *IS_UPDATER_DISABLED
-        .get_or_init(|| utils::env_flag_enabled("HANDY_DISABLE_UPDATER") || !self_update_possible())
+    // This fork ships into air-gapped networks: GitHub is unreachable from them,
+    // and updates are installed by swapping the portable folder by hand. A
+    // background check can only fail there and fills the log with TLS errors,
+    // so it stays off for good.
+    true
 }
 
 /// Effective updater state: the user's stored preference, overridden to `false`

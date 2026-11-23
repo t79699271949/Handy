@@ -244,51 +244,45 @@ impl Backend for CpalBackend {
         log::debug!("resolve_device={:?}", resolve_started.elapsed());
 
         let config_started = Instant::now();
-        let mut config = device
+        let config = device
             .default_input_config()
             .map_err(|e| map_error_during("Failed to fetch preferred config", e))?;
         log::debug!("fetch_config={:?}", config_started.elapsed());
 
         // A virtual driver (VMware/Horizon, RDP loopback) may reject even its own
-        // preferred format on IAudioClient::Initialize with E_INVALIDARG. Try the
-        // other formats it lists before giving up, so recording works at all.
+        // preferred format on IAudioClient::Initialize with E_INVALIDARG, and may
+        // happily list formats it then refuses to open. Probe explicit formats
+        // first, then whatever the driver advertises, and keep the one that opens.
         #[cfg(target_os = "windows")]
-        if !config_opens(&device, &config) {
-            let mut chosen = None;
-            if let Ok(candidates) = device.supported_input_configs() {
-                for candidate in candidates.take(16) {
-                    for rate in [candidate.min_sample_rate(), candidate.max_sample_rate()] {
-                        let next = candidate.with_sample_rate(rate);
-                        if config_opens(&device, &next) {
-                            chosen = Some(next);
-                            break;
-                        }
-                    }
-                    if chosen.is_some() {
-                        break;
-                    }
-                }
-            }
-            match chosen {
-                Some(next) => {
-                    log::warn!(
-                        "the preferred input format ({} ch, {} Hz, {:?}) does not open; using {} ch, {} Hz, {:?}",
-                        config.channels(),
-                        config.sample_rate(),
-                        config.sample_format(),
-                        next.channels(),
-                        next.sample_rate(),
-                        next.sample_format()
-                    );
-                    config = next;
-                }
+        let chosen = if config_opens(&device, &config) {
+            None
+        } else {
+            let probed = probe_input_formats(&device);
+            match &probed {
+                Some((cfg, fmt)) => log::warn!(
+                    "the preferred input format ({} ch, {} Hz, {:?}) does not open; using {} ch, {} Hz, {:?}",
+                    config.channels(),
+                    config.sample_rate(),
+                    config.sample_format(),
+                    cfg.channels,
+                    cfg.sample_rate,
+                    fmt
+                ),
                 None => log::warn!(
-                    "no listed input format opened on this device; trying the preferred one anyway"
+                    "no input format opened on this device; recording will likely fail"
                 ),
             }
-        }
+            probed
+        };
+        #[cfg(not(target_os = "windows"))]
+        let chosen: Option<(cpal::StreamConfig, cpal::SampleFormat)> = None;
 
-        let sample_format = match config.sample_format() {
+        let (stream_config, chosen_sample_format) = match chosen {
+            Some((cfg, fmt)) => (cfg, fmt),
+            None => (config.config(), config.sample_format()),
+        };
+
+        let sample_format = match chosen_sample_format {
             cpal::SampleFormat::U8 => SampleFormat::U8,
             cpal::SampleFormat::I8 => SampleFormat::I8,
             cpal::SampleFormat::U16 => SampleFormat::U16,
@@ -309,17 +303,17 @@ impl Backend for CpalBackend {
             }
         };
 
-        info.channels = Some(config.channels());
+        info.channels = Some(stream_config.channels);
 
         Ok(Box::new(CpalOpenDevice {
             host: host.id(),
             info,
             device_id: device.id().ok(),
             device,
-            config,
+            stream_config,
             format: DeviceFormat {
-                sample_rate: config.sample_rate(),
-                channels: config.channels(),
+                sample_rate: stream_config.sample_rate,
+                channels: stream_config.channels,
                 sample_format,
             },
         }))
@@ -333,7 +327,7 @@ struct CpalOpenDevice {
     info: InputDevice,
     device: cpal::Device,
     device_id: Option<cpal::DeviceId>,
-    config: cpal::SupportedStreamConfig,
+    stream_config: cpal::StreamConfig,
     format: DeviceFormat,
 }
 
@@ -440,7 +434,7 @@ impl OpenDevice for CpalOpenDevice {
             not(any(target_os = "linux", target_os = "windows")),
             allow(unused_mut)
         )]
-        let mut config = self.config.config();
+        let mut config = self.stream_config.clone();
         #[cfg(target_os = "linux")]
         let watch = match &self.device_id {
             Some(id) if self.host == cpal::HostId::PulseAudio => pulse::SourceWatch::start(id.id()),
@@ -521,6 +515,85 @@ impl OpenDevice for CpalOpenDevice {
             watch,
         }))
     }
+}
+
+/// Explicit formats to try before trusting the driver's own list.
+///
+/// Some virtual drivers (Horizon/RDP) advertise only exotic formats and then
+/// refuse them on `IAudioClient::Initialize`, while a plain 48 kHz mono stream
+/// opens fine. Explicit candidates are probed first, best quality first.
+#[cfg(target_os = "windows")]
+fn probe_input_formats(device: &cpal::Device) -> Option<(cpal::StreamConfig, cpal::SampleFormat)> {
+    const RATES: [u32; 4] = [48_000, 44_100, 32_000, 16_000];
+    let rate_score = |r: u32| match r {
+        48_000 => 0,
+        44_100 => 1,
+        32_000 => 2,
+        16_000 => 3,
+        _ => 10,
+    };
+    let channel_score = |c: u16| match c {
+        1 => 0,
+        2 => 1,
+        _ => 5,
+    };
+
+    let mut tries: Vec<(cpal::StreamConfig, cpal::SampleFormat)> = Vec::new();
+    for channels in [1u16, 2] {
+        for rate in RATES {
+            for sample_format in [cpal::SampleFormat::I16, cpal::SampleFormat::F32] {
+                tries.push((
+                    cpal::StreamConfig {
+                        channels,
+                        sample_rate: rate,
+                        buffer_size: cpal::BufferSize::Default,
+                    },
+                    sample_format,
+                ));
+            }
+        }
+    }
+
+    if let Ok(list) = device.supported_input_configs() {
+        for candidate in list.take(16) {
+            for rate in [candidate.min_sample_rate(), candidate.max_sample_rate()] {
+                let with_rate = candidate.with_sample_rate(rate);
+                tries.push((with_rate.config(), with_rate.sample_format()));
+            }
+        }
+    }
+
+    tries.sort_by_key(|(cfg, _)| {
+        (
+            rate_score(cfg.sample_rate),
+            channel_score(cfg.channels),
+        )
+    });
+    tries.dedup_by(|a, b| {
+        a.0.channels == b.0.channels && a.0.sample_rate == b.0.sample_rate && a.1 == b.1
+    });
+
+    tries
+        .into_iter()
+        .find(|(cfg, sample_format)| stream_opens(device, cfg, *sample_format))
+}
+
+/// Whether WASAPI opens a capture stream for an explicit config + sample format.
+#[cfg(target_os = "windows")]
+fn stream_opens(
+    device: &cpal::Device,
+    cfg: &cpal::StreamConfig,
+    sample_format: cpal::SampleFormat,
+) -> bool {
+    device
+        .build_input_stream_raw(
+            cfg.clone(),
+            sample_format,
+            |_: &cpal::Data, _: &cpal::InputCallbackInfo| {},
+            |_: cpal::Error| {},
+            None,
+        )
+        .is_ok()
 }
 
 /// Whether WASAPI actually opens a capture stream with this configuration.

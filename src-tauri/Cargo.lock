@@ -2535,8 +2535,6 @@ dependencies = [
 [[package]]
 name = "handy-cpal"
 version = "0.18.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "07b0f0a55e498d0260eae6bc9a61a976b60d0c014c038771d6fbcc95907b79d4"
 dependencies = [
  "alsa",
  "block2",
@@ -2546,6 +2544,7 @@ dependencies = [
  "jni 0.22.4",
  "js-sys",
  "libc",
+ "log",
  "mach2",
  "ndk",
  "ndk-context",
